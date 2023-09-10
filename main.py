@@ -3,10 +3,12 @@ from bs4 import BeautifulSoup
 from transformers import pipeline
 import random
 
+
 class Article:
     def __init__(self, title, content):
         self.title = title
         self.content = content
+
 
 class User:
     def __init__(self, user_id):
@@ -76,6 +78,7 @@ class User:
         # Load the fetched resources for the application
         pass
 
+
 class NewsAggregator:
     def __init__(self):
         self.search_queries = []
@@ -91,12 +94,14 @@ class NewsAggregator:
         nlp_model = pipeline("text-generation")
         for topic in user_topics:
             for keyword in user_keywords:
-                query = nlp_model(f"{topic} {keyword}", max_length=50, do_sample=True)[0]['generated_text']
+                query = nlp_model(f"{topic} {keyword}", max_length=50, do_sample=True)[
+                    0]['generated_text']
                 self.search_queries.append(query)
 
     def scrape_articles(self):
         for query in self.search_queries:
-            search_results = requests.get(f"https://example.com/search?q={query}")
+            search_results = requests.get(
+                f"https://example.com/search?q={query}")
             soup = BeautifulSoup(search_results.text, "html.parser")
             article_links = soup.find_all("a", class_="news-link")
             for link in article_links:
@@ -108,12 +113,14 @@ class NewsAggregator:
             soup = BeautifulSoup(article.text, "html.parser")
             article_content = soup.find("div", class_="article-content")
             if article_content:
-                self.articles.append(Article(soup.title.text, article_content.text))
+                self.articles.append(
+                    Article(soup.title.text, article_content.text))
 
     def summarize_content(self):
         summarizer = pipeline("summarization")
         for article in self.articles:
-            summary = summarizer(article.content, max_length=100, min_length=50, do_sample=False)[0]['summary_text']
+            summary = summarizer(article.content, max_length=100,
+                                 min_length=50, do_sample=False)[0]['summary_text']
             self.recommendations.append(summary)
 
     def analyze_sentiment(self):
@@ -134,7 +141,8 @@ class NewsAggregator:
         user_feedback = user.get_feedback()
         engagement_metrics = user.calculate_engagement_metrics()
         self.user_preferences = user.analyze_preferences()
-        filtered_recommendations = self.filter_recommendations(user_feedback, engagement_metrics, self.recommendations)
+        filtered_recommendations = self.filter_recommendations(
+            user_feedback, engagement_metrics, self.recommendations)
         self.recommendations = filtered_recommendations[:10]
 
     def generate_advertisements(self):
@@ -195,30 +203,38 @@ class NewsAggregator:
     def calculate_profit(self):
         ad_revenue = self.calculate_ad_revenue(self.advertisements)
         premium_revenue = self.calculate_premium_revenue(self.subscribers)
-        affiliate_revenue = self.calculate_affiliate_revenue(self.affiliate_partners)
-        sponsored_content_revenue = self.calculate_sponsored_content_revenue(self.sponsored_content)
+        affiliate_revenue = self.calculate_affiliate_revenue(
+            self.affiliate_partners)
+        sponsored_content_revenue = self.calculate_sponsored_content_revenue(
+            self.sponsored_content)
 
-        total_profit = ad_revenue + premium_revenue + affiliate_revenue + sponsored_content_revenue
+        total_profit = ad_revenue + premium_revenue + \
+            affiliate_revenue + sponsored_content_revenue
         return total_profit
-    
+
+
 class Advertisement:
     def __init__(self, ad_text):
         self.ad_text = ad_text
+
 
 class PremiumSubscriber:
     def __init__(self, user_id, subscription_type):
         self.user_id = user_id
         self.subscription_type = subscription_type
 
+
 class AffiliatePartner:
     def __init__(self, partner_id, revenue_share):
         self.partner_id = partner_id
         self.revenue_share = revenue_share
 
+
 class SponsoredContent:
     def __init__(self, content_id, content_type):
         self.content_id = content_id
         self.content_type = content_type
+
 
 class ModelUpdater:
     def __init__(self):
@@ -229,6 +245,7 @@ class ModelUpdater:
         # Logic to update the NLP model
         updated_model = None  # Replace with real implementation
         return updated_model
+
 
 class Configuration:
     def __init__(self, config_data):
@@ -244,10 +261,12 @@ class Configuration:
         resource_url = None  # Replace with real implementation
         return resource_url
 
+
 if __name__ == "__main__":
     user = User("user123")
     news_aggregator = NewsAggregator()
-    news_aggregator.process_search_queries(["technology", "business"], ["artificial intelligence", "blockchain"])
+    news_aggregator.process_search_queries(["technology", "business"], [
+                                           "artificial intelligence", "blockchain"])
     news_aggregator.scrape_articles()
     news_aggregator.extract_content()
     news_aggregator.summarize_content()
